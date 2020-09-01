@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.mapper.OrderMapper">
+  <select id="getEMOrderAmountListByDepartment" resultType="com.practice.model.EMOrderAmount">
+    SELECT YEAR(o.date) AS year, MONTH(o.date) AS month, SUM(oi.amount * oi.unitprice) AS amount
+    	FROM orders AS o INNER JOIN orderitems AS oi ON o.id = oi.orderid
+    	WHERE o.EmergencyMaintenancesID IN (
+    		SELECT em.id
+    			FROM departments AS d
+    			INNER JOIN departmentlocations AS dl ON d.id = dl.departmentid
+    			INNER JOIN assets AS a ON dl.id = a.departmentlocationid
+    			INNER JOIN emergencymaintenances AS em ON a.id = em.assetid
+    			WHERE d.id = #{departmentId}
+    	) AND o.date BETWEEN #{from} AND #{to}
+    	GROUP BY YEAR(o.date), MONTH(o.date)
+  </select>
+</mapper>

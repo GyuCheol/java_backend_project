@@ -11,4 +11,5 @@ public interface DepartmentMapper {
 	@Select("SELECT * FROM departments")
 	List<Department> getAllDepartment();
 	
+	
 }

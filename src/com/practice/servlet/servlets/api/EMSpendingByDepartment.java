@@ -18,7 +18,6 @@ public class EMSpendingByDepartment extends HttpServlet {
 		resp.setContentType("text/html");
 		
 		System.out.println(req.getPathInfo());
-		
 	}
 	
 	
